@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package notification;
+
+option go_package = "github.com/taskflow/taskflow/proto/notificationpb;notificationpb";
+
+service NotificationService {
+  rpc SendNotification (SendNotificationRequest) returns (SendNotificationResponse);
+  rpc GetNotifications (GetNotificationsRequest) returns (GetNotificationsResponse);
+}
+
+message SendNotificationRequest {
+  int64  user_id = 1;
+  string type    = 2;
+  string message = 3;
+}
+
+message SendNotificationResponse {
+  int64 id        = 1;
+  bool  delivered = 2;
+}
+
+message GetNotificationsRequest {
+  int64 user_id = 1;
+  int32 page    = 2;
+  int32 limit   = 3;
+}
+
+message Notification {
+  int64  id         = 1;
+  int64  user_id    = 2;
+  string type       = 3;
+  string message    = 4;
+  bool   is_read    = 5;
+  int64  created_at = 6;
+}
+
+message GetNotificationsResponse {
+  repeated Notification items = 1;
+  int64                 total = 2;
+}
